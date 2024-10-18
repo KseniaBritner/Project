@@ -6,7 +6,7 @@ namespace Domen
     {
         static void Main()
         {
-
+            Console.WriteLine("Привет!");
         }
     }
 }
