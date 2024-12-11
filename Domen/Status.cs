@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class CandidateDocument
+    public enum Status
     {
-        public string Name { get; set; }
-        public string WorkExperience { get; set; }
+        InProcessing = 0,
+        Approved = 1,
+        Rejected = 2,
+        Restarted = 3
     }
 }

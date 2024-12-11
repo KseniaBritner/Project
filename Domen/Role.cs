@@ -14,8 +14,8 @@ namespace Domain
             Name = name;
         }
 
-        public Guid Id { get; private init; }
-        public string Name { get; private set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
 
         public static Role Create(string name)
         {

@@ -17,10 +17,10 @@ namespace Domain
             RoleId = roleId;
         }
 
-        public Guid Id { get; private init; }
-        public string Name { get; private set; }
-        public Guid CompanyId { get; private set; }
-        public Guid RoleId {get;private set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public Guid CompanyId { get; set; }
+        public Guid RoleId { get; set; }
 
         public static Employee Create(string name, Guid roleId, Guid companyId)
         {
