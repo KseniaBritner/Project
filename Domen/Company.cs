@@ -11,26 +11,18 @@ namespace Domain
             Description = description;
         }
 
-        public Guid Id { get; private init; }    
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public Guid Id { get; set; }    
+        public string Name { get; set; }
+        public string Description { get; set; }
 
         public Company Create(string name, string description)
-        {
-            if(string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (string.IsNullOrEmpty(description))
-            {
-                throw new ArgumentNullException(nameof(description));
-            }
+        {            
+            ArgumentNullException.ThrowIfNull(name);
+            ArgumentNullException.ThrowIfNull(description);
 
             var company = new Company(new Guid(), name, description);
 
             return company;
         }
-
     }
 }
