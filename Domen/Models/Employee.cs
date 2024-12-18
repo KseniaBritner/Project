@@ -5,11 +5,11 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.Models
 {
     public class Employee
     {
-        private Employee(Guid id,string name, Guid companyId, Guid roleId)
+        private Employee(Guid id, string name, Guid companyId, Guid roleId)
         {
             Id = id;
             Name = name;
@@ -17,10 +17,10 @@ namespace Domain
             RoleId = roleId;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid CompanyId { get; set; }
-        public Guid RoleId { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public Guid CompanyId { get; private set; }
+        public Guid RoleId { get; private set; }
 
         public static Employee Create(string name, Guid roleId, Guid companyId)
         {

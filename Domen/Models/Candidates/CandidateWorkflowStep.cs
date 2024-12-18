@@ -1,0 +1,32 @@
+﻿using Domain.Enum;
+
+namespace Domain.Models.Candidates
+{
+    public class CandidateWorkflowStep
+    {
+        public CandidateWorkflowStep()
+        { }
+
+        public Guid UserId { get; private set; }
+        public Guid RoleId { get; private set; }
+        public string Description { get; private set; }
+        public Status Status { get; private set; }
+        public string Feedback { get; private set; }  
+
+        public void Approve(Guid userId, string feedback)
+        {
+            if (string.IsNullOrEmpty(feedback))
+            {
+                throw new ArgumentNullException(nameof(feedback));
+            }
+
+            Status = Status.Approved;
+            Feedback = feedback;
+        }
+
+        public void Restart()
+        {
+            Status = Status.Restarted;
+        }
+    }
+}
