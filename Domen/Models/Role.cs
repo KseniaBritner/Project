@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.Models
 {
     public class Role
     {
@@ -14,8 +14,8 @@ namespace Domain
             Name = name;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
 
         public static Role Create(string name)
         {

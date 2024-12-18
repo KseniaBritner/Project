@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.Models.Candidates
 {
     public class CandidateDocument
     {
-        public string Name { get; set; }
-        public string WorkExperience { get; set; }
+        public string Name { get; private set; }
+        public string WorkExperience { get; private set; }
     }
 }
