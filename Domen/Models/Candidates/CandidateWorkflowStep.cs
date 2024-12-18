@@ -25,7 +25,7 @@ namespace Domain.Models.Candidates
         {
             if (string.IsNullOrEmpty(feedback))
             {
-                throw new ArgumentNullException(feedback);
+                throw new ArgumentNullException(nameof(feedback));
             }
 
             Status = Status.Approved;
