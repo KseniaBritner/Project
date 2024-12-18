@@ -19,12 +19,7 @@ namespace Domain.Models.Candidates
         public Guid RoleId { get; private set; }
         public string Description { get; private set; }
         public Status Status { get; private set; }
-        public string Feedback { get; private set; }
-
-        public void SetFeedback(string feedback)
-        {
-            Feedback = feedback;
-        }
+        public string Feedback { get; private set};  
 
         public void Approve(Guid userId, string feedback)
         {
@@ -34,7 +29,7 @@ namespace Domain.Models.Candidates
             }
 
             Status = Status.Approved;
-            SetFeedback(feedback);
+            Feedback = feedback;
         }
 
         public void Restart()

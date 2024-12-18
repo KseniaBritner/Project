@@ -20,11 +20,6 @@ namespace Domain.Models.Candidates
         public string Feedback { get; private set; }
         public IReadOnlyCollection<CandidateWorkflowStep> Steps { get; private set; }
 
-        public void SetFeedback(string feedback)
-        {
-            Feedback = feedback;
-        }
-
         public void Approve(string feedback)
         {
             if (Steps.Select(step => step.Status).All(status => status == Status.Approved))
@@ -36,14 +31,14 @@ namespace Domain.Models.Candidates
                 Status = Status.Rejected;
             }
 
-            SetFeedback(feedback);
+            Feedback = feedback;
         }
 
         public void Reject(string feedback)
         {
             Status = Status.Rejected;
 
-            SetFeedback(feedback);
+            Feedback = feedback;
         }
 
         public void Restart()
