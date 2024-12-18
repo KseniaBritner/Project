@@ -9,12 +9,8 @@ namespace Domain.Models.Candidates
 {
     public class CandidateWorkflow
     {
-        public CandidateWorkflow(Status status, 
-            IReadOnlyCollection<CandidateWorkflowStep> steps)
-        {
-            Status = status;
-            Steps = steps;
-        }
+        public CandidateWorkflow()
+        { }
 
         public Status Status { get; private set; }
         public string Feedback { get; private set; }

@@ -8,16 +8,12 @@ namespace Domain.Models.Candidates
 {
     public class Candidate
     {
-        public Candidate(Guid id, 
-            Guid vacancyId, 
-            Guid? referralId, 
-            CandidateWorkflow workflow, 
+        public Candidate(Guid id,  
+            Guid? referralId,  
             CandidateDocument document)
         {
             Id = id;
-            VacancyId = vacancyId;
             ReferralId = referralId;
-            Workflow = workflow;
             Document = document;
         }
 

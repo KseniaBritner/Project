@@ -4,16 +4,8 @@ namespace Domain.Models.Candidates
 {
     public class CandidateWorkflowStep
     {
-        public CandidateWorkflowStep(Guid userId, 
-            Guid roleId, 
-            string description, 
-            Status status)
-        {
-            UserId = userId;
-            RoleId = roleId;
-            Description = description;
-            Status = status;
-        }
+        public CandidateWorkflowStep()
+        { }
 
         public Guid UserId { get; private set; }
         public Guid RoleId { get; private set; }

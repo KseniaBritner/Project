@@ -13,8 +13,7 @@ namespace Domain.Models.Vacanies
 
         public CandidateWorkflow Create()
         {
-            return new CandidateWorkflow(Status.InProcessing,
-                new ReadOnlyCollection<CandidateWorkflowStep>(Steps.Select(step => step.Create()).ToList()));
+            return new CandidateWorkflow();
         }
     }
 

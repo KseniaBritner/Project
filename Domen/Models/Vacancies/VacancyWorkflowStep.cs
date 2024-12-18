@@ -16,11 +16,7 @@ namespace Domain.Models.Vacancies
 
         public CandidateWorkflowStep Create()
         {
-            return new CandidateWorkflowStep(
-                UserId,
-                RoleId,
-                Description,
-                Status.InProcessing);
+            return new CandidateWorkflowStep();
         }
     }
 

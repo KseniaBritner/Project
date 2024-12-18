@@ -18,9 +18,7 @@ namespace Domain.Models.Vacanies
         {
             return new Candidate(
                 Guid.NewGuid(),
-                Id,
                 referralId,
-                Workflow.Create(),
                 document);
         }
     }
