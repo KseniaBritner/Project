@@ -10,7 +10,7 @@ namespace Domain.Models.Vacanies
 {
     public class Vacancy
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; private init; }
         public string Description { get; private set; }
         public VacancyWorkflow Workflow { get; private set; }
 
@@ -21,18 +21,9 @@ namespace Domain.Models.Vacanies
             Workflow = workflow ?? throw new ArgumentNullException(nameof(workflow));
         }
 
-        /*
-          public Candidate Create(CandidateDocument document, Guid? referralId, Guid vacancyId)
+        public Candidate Create(CandidateDocument document, Guid? referralId)
         {
-           return new Candidate(
-                Guid.NewGuid(),
-                vacancyId,
-                referralId,
-                new CandidateWorkflow(Workflow.Steps),
-                document
-                );
-            
+            return Candidate.Create(document, referralId);
         }
-        */
     }
 }

@@ -16,7 +16,7 @@ namespace Domain.Models.Vacanies
         }
         public CandidateWorkflow Create()
         {
-            return new CandidateWorkflow();
+            return CandidateWorkflow.Create(this);
         }
     }
 

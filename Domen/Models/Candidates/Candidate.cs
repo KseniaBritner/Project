@@ -8,12 +8,11 @@ namespace Domain.Models.Candidates
 {
     public class Candidate
     {
-        public Candidate(Guid id, Guid vacancyId, Guid? referralId, 
+        public Candidate(Guid id, Guid? referralId, 
             CandidateWorkflow workflow, CandidateDocument document)
         {
             Id = id;
             ReferralId = referralId;
-            VacancyId = vacancyId;
             Workflow = workflow ?? throw new ArgumentNullException(nameof(workflow));
             Document = document ?? throw new ArgumentNullException(nameof(document));
         }
@@ -30,16 +29,18 @@ namespace Domain.Models.Candidates
             if (document == null) throw new ArgumentNullException(nameof(document));
             if (workflow == null) throw new ArgumentNullException(nameof(workflow));
             
-            return new Candidate(Guid.NewGuid(), Guid.Empty, referralId, workflow, document);
+            return new Candidate(Guid.NewGuid(), referralId, workflow, document);
         }
-        public void Approve(string comment)
+        public void Approve(Employee employee, string feedback)
         {
-            Workflow.Approve(comment);
+            ArgumentNullException.ThrowIfNull(nameof(employee));
+
+            Workflow.Approve(employee, feedback);
         }
 
-        public void Reject(string comment)
+        public void Reject(Employee employee, string feedback)
         {
-            Workflow.Reject(comment);
+            Workflow.Reject(employee, feedback);
         }
 
         public void Restart()
