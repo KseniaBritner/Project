@@ -1,5 +1,4 @@
-﻿using Domain.Enum;
-using Domain.Models.Candidates;
+﻿using Domain.Models.Candidates;
 using System;
 using System.Collections.Generic;
 using System.Linq;

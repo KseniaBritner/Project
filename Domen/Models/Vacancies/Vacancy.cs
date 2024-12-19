@@ -13,13 +13,26 @@ namespace Domain.Models.Vacanies
         public Guid Id { get; private set; }
         public string Description { get; private set; }
         public VacancyWorkflow Workflow { get; private set; }
-        
-        public Candidate Create(CandidateDocument document, Guid? referralId)
+
+        public Vacancy(Guid id, string description, VacancyWorkflow workflow)
         {
-            return new Candidate(
-                Guid.NewGuid(),
-                referralId,
-                document);
+            Id = id;
+            Description = description ?? throw new ArgumentNullException(nameof(description));
+            Workflow = workflow ?? throw new ArgumentNullException(nameof(workflow));
         }
+
+        /*
+          public Candidate Create(CandidateDocument document, Guid? referralId, Guid vacancyId)
+        {
+           return new Candidate(
+                Guid.NewGuid(),
+                vacancyId,
+                referralId,
+                new CandidateWorkflow(Workflow.Steps),
+                document
+                );
+            
+        }
+        */
     }
 }

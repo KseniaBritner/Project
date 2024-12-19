@@ -1,4 +1,4 @@
-﻿using Domain.Enum;
+﻿using Domain.Models.Candidates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +9,24 @@ namespace Domain.Models.Candidates
 {
     public class CandidateWorkflow
     {
-        public CandidateWorkflow()
-        { }
+        public CandidateWorkflow(Status status, string? feedback, 
+            IReadOnlyCollection<CandidateWorkflowStep> steps)
+        {
+            Status = status;
+            Feedback = feedback;
+            Steps = steps ?? throw new ArgumentNullException(nameof(steps));
+        }
 
         public Status Status { get; private set; }
-        public string Feedback { get; private set; }
-        public IReadOnlyCollection<CandidateWorkflowStep> Steps { get; private set; }
+        public string? Feedback { get; private set; }
+        public IReadOnlyCollection<CandidateWorkflowStep> Steps { get; init; }
+
+        public static CandidateWorkflow Create(IReadOnlyCollection<CandidateWorkflowStep> steps)
+        {
+            if (steps == null) throw new ArgumentNullException(nameof(steps));
+
+            return new CandidateWorkflow(Status.InProcessing,null,steps);
+        }
 
         public void Approve(string feedback)
         {
