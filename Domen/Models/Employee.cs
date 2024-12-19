@@ -9,7 +9,7 @@ namespace Domain.Models
 {
     public class Employee
     {
-        private Employee(Guid id, string name, Guid companyId, Guid roleId)
+        public Employee(Guid id, string name, Guid companyId, Guid roleId)
         {
             Id = id;
             Name = name;

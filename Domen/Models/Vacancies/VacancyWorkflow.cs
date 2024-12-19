@@ -2,22 +2,20 @@
 using Domain.Models.Vacancies;
 using System.Collections.ObjectModel;
 
-namespace Domain.Models.Vacanies
-{
-    public class VacancyWorkflow
-    {
-        public string Name { get; private set; }
-        public IReadOnlyCollection<VacancyWorkflowStep> Steps { get; private set; }
+namespace Domain.Models.Vacancies;
 
-        public VacancyWorkflow(string name, IReadOnlyCollection<VacancyWorkflowStep> steps)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Steps = steps ?? throw new ArgumentNullException(nameof(steps));
-        }
-        public CandidateWorkflow Create()
-        {
-            return CandidateWorkflow.Create(this);
-        }
+public sealed class VacancyWorkflow
+{
+    private VacancyWorkflow(IReadOnlyCollection<VacancyWorkflowStep> steps)
+    {
+        Steps = steps ?? throw new ArgumentNullException(nameof(steps));
     }
 
+    public IReadOnlyCollection<VacancyWorkflowStep> Steps { get; private init; }
+
+    public static VacancyWorkflow Create(IReadOnlyCollection<VacancyWorkflowStep> steps)
+        => new VacancyWorkflow(steps);
+
+    public CandidateWorkflow ToCandidate()
+        => CandidateWorkflow.Create(Steps.Select(step => step.ToCandidate()).ToArray());
 }

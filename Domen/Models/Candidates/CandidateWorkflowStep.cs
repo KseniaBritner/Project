@@ -1,74 +1,111 @@
-﻿using Domain.Models.Candidates;
+﻿using Domain.Models;
+using Domain.Models.Candidates;
 using Domain.Models.Vacancies;
 using System.Xml.Linq;
 
-namespace Domain.Models.Candidates
+namespace Domain.Candidates;
+
+public sealed class CandidateWorkflowStep
 {
-    public class CandidateWorkflowStep
+    private CandidateWorkflowStep(
+        Guid? userId,
+        Guid? roleId,
+        int number,
+        Status status,
+        string? feedback,
+        DateTime? feedbackDate)
     {
-        public CandidateWorkflowStep(Guid? userId, Guid? roleId, 
-            string description, Status status, int stepNumber)
+        if (userId is null && roleId is null)
         {
-            if (userId != null && roleId != null)
-            {
-                throw new ArgumentException("UserId и RoleId не могут быть указаны одновременно.");
-            }
-
-            UserId = userId;
-            RoleId = roleId;
-            Description = description ?? throw new ArgumentNullException(nameof(description));
-            Status = status;
-            StepNumber = stepNumber;
+            throw new ArgumentException("Должен быть указан хотя бы один из параметров: userId или roleId.");
         }
 
-        public Guid? UserId { get; private init; }
-        public Guid? RoleId { get; private init; }
-        public string Description { get; private set; }
-        public Status Status { get; private set; }
-        public string? Feedback { get; private set; }
-        public int StepNumber { get; private set; }
+        UserId = userId;
+        RoleId = roleId;
+        Number = number;
+        Status = status;
+        Feedback = feedback;
+        FeedbackDate = feedbackDate;
+    }
 
-        public static CandidateWorkflowStep Create(VacancyWorkflowStep vacancyWorkflowStep)
+    public Guid? UserId { get; private init; }
+    public Guid? RoleId { get; private init; }
+    public int Number { get; private init; }
+    public Status Status { get; private set; }
+    public string? Feedback { get; private set; }
+    public DateTime? FeedbackDate { get; private set; }
+
+    public static CandidateWorkflowStep Create(Guid? userId, Guid? roleId, int number)
+    {
+        if (number <= 0)
         {
-            if (vacancyWorkflowStep.UserId != null && vacancyWorkflowStep.RoleId != null)
-            {
-                throw new ArgumentException("UserId и RoleId не могут быть указаны одновременно.");
-            }
-            
-            return new CandidateWorkflowStep(vacancyWorkflowStep.UserId, vacancyWorkflowStep.RoleId, vacancyWorkflowStep.Description, Status.InProcessing, vacancyWorkflowStep.StepNumber);
+            throw new ArgumentOutOfRangeException(nameof(number), "Номер шага должен быть больше нуля.");
         }
 
-        public void Approve(Employee employee, string feedback)
+        return new CandidateWorkflowStep(
+            userId,
+            roleId,
+            number,
+            Status.InProcessing,
+            feedback: null,
+            feedbackDate: null);
+    }
+
+    internal void Approve(Employee employee, string feedback)
+    {
+        if (employee == null)
         {
-            ArgumentNullException.ThrowIfNull(nameof(employee));
-
-            if (string.IsNullOrEmpty(feedback))
-            {
-                throw new ArgumentNullException(nameof(feedback));
-            }
-
-            Status = Status.Approved;
-            Feedback = feedback;
+            throw new ArgumentNullException(nameof(employee), "Пользователь не может быть null.");
         }
 
-        public void Reject(Employee employee, string feedback)
+        if (string.IsNullOrWhiteSpace(feedback))
         {
-            ArgumentNullException.ThrowIfNull(nameof(employee));
-
-            if (string.IsNullOrEmpty(feedback))
-            {
-                throw new ArgumentNullException(nameof(feedback));
-            }
-
-            Status = Status.Rejected;
-            Feedback = feedback;
+            throw new ArgumentException("Обратная связь не может быть пустой или состоять из пробелов.", nameof(feedback));
         }
 
+        ValidateStatusChange(employee);
 
-        public void Restart()
+        Status = Status.Approved;
+        Feedback = feedback;
+        FeedbackDate = DateTime.UtcNow;
+    }
+
+    internal void Reject(Employee employee, string feedback)
+    {
+        if (employee == null)
         {
-            Status = Status.Restarted;
-            Feedback = null;
+            throw new ArgumentNullException(nameof(employee), "Пользователь не может быть null.");
+        }
+
+        if (string.IsNullOrWhiteSpace(feedback))
+        {
+            throw new ArgumentException("Обратная связь не может быть пустой или состоять из пробелов.", nameof(feedback));
+        }
+
+        ValidateStatusChange(employee);
+
+        Status = Status.Rejected;
+        Feedback = feedback;
+        FeedbackDate = DateTime.UtcNow;
+    }
+
+    internal void Restart()
+    {
+        Status = Status.InProcessing;
+        Feedback = null;
+        FeedbackDate = null;
+    }
+
+    private void ValidateStatusChange(Employee employee)
+    {
+        if (Status != Status.InProcessing)
+        {
+            throw new InvalidOperationException("Статус может быть изменён только, если он находится в обработке.");
+        }
+
+        if (employee.Id != UserId && employee.RoleId != RoleId)
+        {
+            throw new UnauthorizedAccessException("Пользователь не имеет прав на изменение статуса этого шага.");
         }
     }
 }

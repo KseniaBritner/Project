@@ -1,72 +1,95 @@
-﻿using Domain.Models.Candidates;
-using Domain.Models.Vacanies;
+﻿using Domain.Models;
+using Domain.Candidates;
+using Domain.Models.Vacancies;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Models.Candidates
+namespace Domain.Models.Candidates;
+
+public sealed class CandidateWorkflow
 {
-    public class CandidateWorkflow
+    private CandidateWorkflow(IReadOnlyCollection<CandidateWorkflowStep> steps)
     {
-        public CandidateWorkflow(Status status, 
-            IReadOnlyCollection<CandidateWorkflowStep> steps)
+        if (steps == null || !steps.Any())
         {
-            Status = status;
-            Steps = steps ?? throw new ArgumentNullException(nameof(steps));
-        }
-        
-        public Status Status { get; private set; }
-        public string? Feedback { get; private set; }
-        public IReadOnlyCollection<CandidateWorkflowStep> Steps { get; init; }
-
-        public static CandidateWorkflow Create(VacancyWorkflow vacancyWorkflow)
-        {
-            return new CandidateWorkflow(Status.InProcessing, new List<CandidateWorkflowStep>(vacancyWorkflow.Steps.Select(CandidateWorkflowStep.Create)));
+            throw new ArgumentException("Шаги рабочего процесса не могут быть пустыми.", nameof(steps));
         }
 
-        public void Approve(Employee employee, string feedback)
-        {
-            ArgumentNullException.ThrowIfNull(employee, nameof(employee));
-            ArgumentNullException.ThrowIfNull(feedback, nameof(feedback));
-
-            if (Steps.Select(step => step.Status).All(status => status == Status.Approved))
-            {
-                Status = Status.Approved;
-            }
-            else if (Steps.Any(workflowStep => workflowStep.Status == Status.Rejected))
-            {
-                Status = Status.Rejected;
-            }
-
-            var stepInProgress = Steps.OrderBy(step => step.StepNumber).SingleOrDefault();
-
-            ArgumentNullException.ThrowIfNull(stepInProgress);
-
-            stepInProgress.Approve(employee, feedback);
-
-        }
-
-        public void Reject(Employee employee, string feedback)
-        {
-            var stepInProgress = Steps.OrderBy(step => step.StepNumber).SingleOrDefault();
-
-            ArgumentNullException.ThrowIfNull(stepInProgress);
-
-            stepInProgress.Reject(employee, feedback);
-        }
-
-        public void Restart()
-        {
-            foreach (var step in Steps)
-            {
-                step.Restart();
-            }
-            Status = Status.Restarted;
-        }
-
+        Steps = steps;
     }
 
+    public IReadOnlyCollection<CandidateWorkflowStep> Steps { get; private set; }
+    internal Status Status => GetStatus();
+
+    public static CandidateWorkflow Create(IReadOnlyCollection<CandidateWorkflowStep> steps)
+    {
+        if (steps == null || !steps.Any())
+        {
+            throw new ArgumentException("Для создания рабочего процесса должны быть указаны шаги.", nameof(steps));
+        }
+
+        return new CandidateWorkflow(steps);
+    }
+
+    public void Approve(Employee employee, string feedback)
+    {
+        GetCurrentInProcessingStep().Approve(employee, feedback);
+    }
+
+    public void Reject(Employee employee, string feedback)
+    {
+        GetCurrentInProcessingStep().Reject(employee, feedback);
+    }
+
+    public void Restart()
+    {
+        foreach (var step in Steps)
+        {
+            step.Restart();
+        }
+    }
+
+    private CandidateWorkflowStep GetCurrentInProcessingStep()
+    {
+        var status = GetStatus();
+
+        if (status == Status.Approved)
+        {
+            throw new InvalidOperationException("Невозможно выполнить операцию: рабочий процесс уже утвержден.");
+        }
+
+        if (status == Status.Rejected)
+        {
+            throw new InvalidOperationException("Невозможно выполнить операцию: рабочий процесс отклонен.");
+        }
+
+        var currentStep = Steps
+            .Where(step => step.Status == Status.InProcessing)
+            .OrderBy(step => step.Number)
+            .FirstOrDefault();
+
+        if (currentStep == null)
+        {
+            throw new InvalidOperationException("Текущий шаг с состоянием 'В процессе' не найден.");
+        }
+
+        return currentStep;
+    }
+
+    private Status GetStatus()
+    {
+        if (Steps.All(step => step.Status == Status.Approved))
+        {
+            return Status.Approved;
+        }
+
+        if (Steps.Any(step => step.Status == Status.Rejected))
+        {
+            return Status.Rejected;
+        }
+
+        return Status.InProcessing;
+    }
 }
+
