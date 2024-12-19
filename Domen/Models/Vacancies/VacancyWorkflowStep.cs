@@ -12,10 +12,11 @@ namespace Domain.Models.Vacancies
         public Guid UserId { get; private set; }
         public Guid RoleId { get; private set; }
         public string Description { get; private set; }
+        public int StepNumber { get; private set; }
 
         public CandidateWorkflowStep Create()
         {
-            return new CandidateWorkflowStep();
+            return CandidateWorkflowStep.Create(this);
         }
     }
 
