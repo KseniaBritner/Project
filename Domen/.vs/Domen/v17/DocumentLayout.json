@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|d:\\\u043A\u0443\u0440\u0441_iii\\\u0442\u043F\\project\\domen\\models\\candidates\\candidateworkflowstep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|solutionrelative:models\\candidates\\candidateworkflowstep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +23,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CandidateWorkflowStep.cs",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Models\\Candidates\\CandidateWorkflowStep.cs",
+              "RelativeDocumentMoniker": "Models\\Candidates\\CandidateWorkflowStep.cs",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Models\\Candidates\\CandidateWorkflowStep.cs",
+              "RelativeToolTip": "Models\\Candidates\\CandidateWorkflowStep.cs",
+              "ViewState": "AQIAACYAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-19T23:02:15.635Z",
+              "EditorCaption": ""
             }
           ]
         }
