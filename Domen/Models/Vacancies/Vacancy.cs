@@ -1,6 +1,7 @@
 ﻿using Domain.Models.Candidates;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,5 +32,9 @@ public sealed class Vacancy
 
     public Candidate CreateCandidate(CandidateDocument candidateDocument, Guid? referralId)
         => Candidate.Create(Id, referralId, candidateDocument, Workflow.ToCandidate());
+
 }
+
+
+
 
