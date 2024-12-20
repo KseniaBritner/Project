@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|d:\\\u043A\u0443\u0440\u0441_iii\\\u0442\u043F\\project\\domen\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|solutionrelative:domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|d:\\\u043A\u0443\u0440\u0441_iii\\\u0442\u043F\\project\\domen\\models\\candidates\\candidateworkflowstep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E4C9A4BE-7C07-4ACB-9724-74AC7B8540E5}|Domain.csproj|solutionrelative:models\\candidates\\candidateworkflowstep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -27,12 +31,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Domain",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Domain.csproj",
+              "RelativeDocumentMoniker": "Domain.csproj",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Domain.csproj",
+              "RelativeToolTip": "Domain.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-20T17:01:18.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "CandidateWorkflowStep.cs",
               "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Models\\Candidates\\CandidateWorkflowStep.cs",
               "RelativeDocumentMoniker": "Models\\Candidates\\CandidateWorkflowStep.cs",
               "ToolTip": "D:\\\u041A\u0443\u0440\u0441_III\\\u0422\u041F\\Project\\Domen\\Models\\Candidates\\CandidateWorkflowStep.cs",
               "RelativeToolTip": "Models\\Candidates\\CandidateWorkflowStep.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAACYAAAAAAAAAAAAAACwAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-19T23:02:15.635Z",
               "EditorCaption": ""
