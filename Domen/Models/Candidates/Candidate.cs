@@ -36,7 +36,18 @@ public sealed class Candidate
         => new(Guid.NewGuid(), vacancyId, referralId, document, workflow);
 
     public void Approve(Employee employee, string feedback)
-        => Workflow.Approve(employee, feedback);
+    {
+        if (employee == null)
+        {
+            throw new ArgumentNullException(nameof(employee), "Пользователь не может быть null.");
+        }
+
+        if (string.IsNullOrWhiteSpace(feedback))
+        {
+            throw new ArgumentException("Обратная связь не может быть пустой или состоять из пробелов.", nameof(feedback));
+        }
+        Workflow.Approve(employee, feedback);
+    }
 
     public void Reject(Employee employee, string feedback)
         => Workflow.Reject(employee, feedback);

@@ -37,5 +37,8 @@ namespace TestDomen.CandidatesTests
 
             Assert.Equal(Status.Approved, candidate.Status);
         }
+
+       
+
     }
 }

@@ -32,11 +32,9 @@ namespace TestDomen.CandidatesTests
             var validEmployee = new Employee(Guid.NewGuid(), "Иванов В.В. (допустимый)", Guid.NewGuid(), Guid.NewGuid());
             var invalidEmployee = new Employee(Guid.NewGuid(), "Соколов С.С. (недопустимый)", Guid.NewGuid(), Guid.NewGuid());
 
-            // шаг Workflo с вал сотр
             var step = CandidateWorkflowStep.Create(validEmployee.Id, validEmployee.RoleId, 1);
             var workflow = CandidateWorkflow.Create(new[] { step });
 
-            // ппроверяем исключение
             Assert.Throws<UnauthorizedAccessException>(() => workflow.Approve(invalidEmployee, "Approved"));
         }
     }

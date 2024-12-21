@@ -23,8 +23,6 @@ namespace TestDomen.CandidatesTests
             Assert.Equal(stepNumber, step.Number);
             Assert.Equal(Status.InProcessing, step.Status);
         }
-
-        
     }
 
 }

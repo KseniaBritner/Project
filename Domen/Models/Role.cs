@@ -19,7 +19,15 @@ namespace Domain.Models
 
         public static Role Create(string name)
         {
-            ArgumentNullException.ThrowIfNull(name);
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name), "Имя роли не может быть null.");
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Имя роли не может быть пустым или состоять только из пробелов.", nameof(name));
+            }
 
             return new Role(new Guid(), name);
         }

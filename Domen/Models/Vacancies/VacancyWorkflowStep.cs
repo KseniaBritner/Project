@@ -13,10 +13,11 @@ public sealed class VacancyWorkflowStep
     {
         if (userId is null && roleId is null)
         {
-            throw new ArgumentException("Either UserId or RoleId must be specified.");
+            throw new ArgumentException("Должен быть указан либо UserId, либо RoleId.");
         }
 
         ArgumentNullException.ThrowIfNull(description);
+
 
         UserId = userId;
         RoleId = roleId;
@@ -29,8 +30,16 @@ public sealed class VacancyWorkflowStep
     public string Description { get; private init; }
     public int StepNumber { get; private init; }
 
+   
     public static VacancyWorkflowStep Create(Guid? userId, Guid? roleId, string description, int stepNumber)
-        => new VacancyWorkflowStep(userId, roleId, description, stepNumber);
+    {
+        if (stepNumber <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stepNumber));
+        }
+
+        return new VacancyWorkflowStep(userId, roleId, description, stepNumber);
+    }
 
     public CandidateWorkflowStep ToCandidate()
         => CandidateWorkflowStep.Create(UserId, RoleId, StepNumber);
