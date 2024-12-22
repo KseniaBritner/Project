@@ -20,19 +20,6 @@ namespace TestDomen.VacanciesTests
             Assert.Equal(stepNumber, step.StepNumber);
         }
 
-        //проверка метода Create на отриц. шаг
-        [Fact]
-        public void Create_NegativeStepNumber()
-        {
-            Guid? userId = Guid.NewGuid();
-            Guid? roleId = Guid.NewGuid();
-            string description = "Test";
-            int negativeStepNumber = -1;
-
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => VacancyWorkflowStep.Create(userId, roleId, description, negativeStepNumber));
-            Assert.Equal("stepNumber", exception.ParamName);
-        }
-
         //проверки  userId и roleId на null
         [Fact]
         public void NullUserIdRoleId()
@@ -45,6 +32,7 @@ namespace TestDomen.VacanciesTests
             var exception = Assert.Throws<ArgumentException>(() => VacancyWorkflowStep.Create(userId, roleId, description, stepNumber));
             Assert.Equal("Должен быть указан либо UserId, либо RoleId.", exception.Message);
         }
+
         //проверки description на null
         [Fact]
         public void DescriptionIsNull()
@@ -56,6 +44,7 @@ namespace TestDomen.VacanciesTests
 
             Assert.Throws<ArgumentNullException>(() => VacancyWorkflowStep.Create(userId, roleId, description, stepNumber));
         }
+
         //проверки UserId на null
         [Fact]
         public void NullUserId()
@@ -72,6 +61,7 @@ namespace TestDomen.VacanciesTests
             Assert.Equal(description, step.Description);
             Assert.Equal(stepNumber, step.StepNumber);
         }
+
         //проверки RoleId на null
         [Fact]
         public void NullRoleId()

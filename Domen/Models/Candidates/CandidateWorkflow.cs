@@ -26,7 +26,7 @@ public sealed class CandidateWorkflow
     {
         if (steps == null || !steps.Any())
         {
-            throw new ArgumentException("Для создания рабочего процесса должны быть указаны шаги.", nameof(steps));
+            throw new ArgumentException("Шаги рабочего процесса не могут быть пустыми.", nameof(steps));
         }
 
         return new CandidateWorkflow(steps);

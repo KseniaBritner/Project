@@ -8,7 +8,7 @@ namespace Domain.Models
 {
     public class Role
     {
-        private Role(Guid id, string name)
+        public Role(Guid id, string name)
         {
             Id = id;
             Name = name;
@@ -29,7 +29,7 @@ namespace Domain.Models
                 throw new ArgumentException("Имя роли не может быть пустым или состоять только из пробелов.", nameof(name));
             }
 
-            return new Role(new Guid(), name);
+            return new Role(Guid.NewGuid(), name);
         }
     }
 }

@@ -3,6 +3,7 @@ using Domain.Models;
 using Domain.Models.Candidates;
 using Xunit;
 
+
 namespace TestDomen.CandidatesTests
 {
     public class CandidateTests
@@ -26,19 +27,43 @@ namespace TestDomen.CandidatesTests
         }
 
         [Fact]
-        public void Approve_ValidEmployee_UpdatesStatus()
+        public void Approve_ThrowArgumentNullException_EmployeeIsNull()
         {
-            var employee = new Employee(Guid.NewGuid(), "Иванов В.В.", Guid.NewGuid(), Guid.NewGuid());
-            var step = CandidateWorkflowStep.Create(employee.Id, employee.RoleId, 1);
-            var workflow = CandidateWorkflow.Create(new[] { step });
-            var candidate = Candidate.Create(Guid.NewGuid(), null, new CandidateDocument(), workflow);
+            var steps = new[] { CandidateWorkflowStep.Create(Guid.NewGuid(), Guid.NewGuid(), 1) };
+            var workflow = CandidateWorkflow.Create(steps);
+            Employee employee = null;
+            string feedback = "feedback";
 
-            candidate.Approve(employee, "Approved");
-
-            Assert.Equal(Status.Approved, candidate.Status);
+            var exception = Assert.Throws<ArgumentNullException>(() => workflow.Approve(employee, feedback));
+            Assert.StartsWith("Пользователь не может быть null.", exception.Message);
+            Assert.Equal("employee", exception.ParamName);
         }
 
-       
+        [Fact]
+        public void Approve_ThrowArgumentException_FeedbackIsEmpty()
+        {
+            var steps = new[] { CandidateWorkflowStep.Create(Guid.NewGuid(), Guid.NewGuid(), 1) };
+            var workflow = CandidateWorkflow.Create(steps);
+            var employee = new Employee(Guid.NewGuid(), "Employee", Guid.NewGuid(), Guid.NewGuid());
+            string feedback = "";  
+
+            var exception = Assert.Throws<ArgumentException>(() => workflow.Approve(employee, feedback));
+            Assert.StartsWith("Обратная связь не может быть пустой или состоять из пробелов.", exception.Message);
+            Assert.Equal("feedback", exception.ParamName);
+        }
+
+
+        [Fact]
+        public void Restart_ShouldInvokeWorkflowRestart()
+        {
+            var steps = new[] { CandidateWorkflowStep.Create(Guid.NewGuid(), Guid.NewGuid(), 1) };
+            var workflow = CandidateWorkflow.Create(steps);
+            var candidate = Candidate.Create(Guid.NewGuid(), null, new CandidateDocument(), workflow);
+
+            var exception = Record.Exception(() => candidate.Restart());
+
+            Assert.Null(exception);
+        }
 
     }
 }

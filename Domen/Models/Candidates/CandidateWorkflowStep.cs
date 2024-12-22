@@ -51,7 +51,7 @@ public sealed class CandidateWorkflowStep
             feedbackDate: null);
     }
 
-    internal void Approve(Employee employee, string feedback)
+    public void Approve(Employee employee, string feedback)
     {
         if (employee == null)
         {
@@ -70,7 +70,7 @@ public sealed class CandidateWorkflowStep
         FeedbackDate = DateTime.UtcNow;
     }
 
-    internal void Reject(Employee employee, string feedback)
+    public void Reject(Employee employee, string feedback)
     {
         if (employee == null)
         {
@@ -89,7 +89,7 @@ public sealed class CandidateWorkflowStep
         FeedbackDate = DateTime.UtcNow;
     }
 
-    internal void Restart()
+    public void Restart()
     {
         Status = Status.InProcessing;
         Feedback = null;

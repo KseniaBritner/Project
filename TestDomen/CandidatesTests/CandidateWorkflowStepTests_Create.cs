@@ -24,5 +24,4 @@ namespace TestDomen.CandidatesTests
             Assert.Equal(Status.InProcessing, step.Status);
         }
     }
-
 }
