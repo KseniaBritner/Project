@@ -8,6 +8,7 @@ namespace TestDomen.CandidatesTests
 {
     public class CandidateTests
     {
+
         [Fact]
         public void Create_ValidParameters_ReturnsCandidate()
         {
@@ -27,29 +28,49 @@ namespace TestDomen.CandidatesTests
         }
 
         [Fact]
-        public void Approve_ThrowArgumentNullException_EmployeeIsNull()
+        public void Approve_ArgumentNullException_EmployeeIsNull()
         {
+            var document = CreateCandidateDocument();
             var steps = new[] { CandidateWorkflowStep.Create(Guid.NewGuid(), Guid.NewGuid(), 1) };
             var workflow = CandidateWorkflow.Create(steps);
-            Employee employee = null;
+            var candidate = Candidate.Create(Guid.NewGuid(), null, document, workflow);
+
+            Employee employee = null; 
             string feedback = "feedback";
 
-            var exception = Assert.Throws<ArgumentNullException>(() => workflow.Approve(employee, feedback));
+            var exception = Assert.Throws<ArgumentNullException>(() => candidate.Approve(employee, feedback));
             Assert.StartsWith("Пользователь не может быть null.", exception.Message);
             Assert.Equal("employee", exception.ParamName);
         }
 
         [Fact]
-        public void Approve_ThrowArgumentException_FeedbackIsEmpty()
+        public void Approve_ThrowsArgumentException_WhenFeedbackIsNullOrWhiteSpace()
         {
+            var document = CreateCandidateDocument();
             var steps = new[] { CandidateWorkflowStep.Create(Guid.NewGuid(), Guid.NewGuid(), 1) };
             var workflow = CandidateWorkflow.Create(steps);
-            var employee = new Employee(Guid.NewGuid(), "Employee", Guid.NewGuid(), Guid.NewGuid());
-            string feedback = "";  
+            var candidate = Candidate.Create(Guid.NewGuid(), null, document, workflow);
 
-            var exception = Assert.Throws<ArgumentException>(() => workflow.Approve(employee, feedback));
+            var employee = new Employee(Guid.NewGuid(), "John", Guid.NewGuid(), Guid.NewGuid());
+            string feedback = " "; 
+
+            var exception = Assert.Throws<ArgumentException>(() => candidate.Approve(employee, feedback));
             Assert.StartsWith("Обратная связь не может быть пустой или состоять из пробелов.", exception.Message);
             Assert.Equal("feedback", exception.ParamName);
+        }
+
+
+        private CandidateDocument CreateCandidateDocument()
+        {
+            var document = (CandidateDocument)Activator.CreateInstance(typeof(CandidateDocument), nonPublic: true);
+
+            typeof(CandidateDocument).GetProperty("Name")!
+                .SetValue(document, "Test");
+
+            typeof(CandidateDocument).GetProperty("WorkExperience")!
+                .SetValue(document, "3 years");
+
+            return document;
         }
 
 
